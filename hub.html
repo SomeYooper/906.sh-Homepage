@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub | 906.sh</title>
+    <meta name="description" content="906.sh Developer Hub - Tech stack, tools, and infrastructure">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='30%25'%3E%3Cstop offset='0%25' stop-color='%2300ff88'/%3E%3Cstop offset='55%25' stop-color='%2338BDF8'/%3E%3Cstop offset='100%25' stop-color='%230a0e1a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect rx='16' width='64' height='64' fill='url(%23g)'/%3E%3C/svg%3E">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/hub.css">
+    <style>
+        /* Enhanced Hub Cards with Links */
+        .hub-card {
+            text-decoration: none;
+        }
+
+        .hub-card-description {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        .hub-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hub-card:hover .hub-card-link {
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand">
+                <img src="images/logo.png" alt="906.sh" class="brand-logo">
+                <span class="brand-name">906.SH</span>
+            </a>
+            <nav>
+                <a href="hub.html" class="active">Hub</a>
+                <a href="projects.html">Projects</a>
+                <a href="writing.html">Writing</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <button class="menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <a href="index.html" class="btn btn-primary">← Home</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>🎯 Tech Stack</h1>
+                <p>The infrastructure, tools, and services powering the 906.sh ecosystem.</p>
+            </div>
+
+            <!-- Infrastructure -->
+            <h2 class="section-title">🖥️ Infrastructure</h2>
+            <div class="hub-grid">
+                <a href="https://www.proxmox.com/en/proxmox-virtual-environment" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🖥️</div>
+                    <h3>Proxmox VE</h3>
+                    <p class="hub-card-description">Open-source server virtualization platform. Combines KVM hypervisor
+                        and Linux containers for enterprise-grade VM management.</p>
+                    <span class="tag tag-primary">Infra</span>
+                    <span class="hub-card-link">proxmox.com →</span>
+                </a>
+
+                <a href="https://www.proxmox.com/en/proxmox-backup-server" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">💾</div>
+                    <h3>Proxmox Backup</h3>
+                    <p class="hub-card-description">Enterprise backup solution supporting incremental backups,
+                        deduplication, and encryption. Perfect for VMs and containers.</p>
+                    <span class="tag tag-primary">Infra</span>
+                    <span class="hub-card-link">proxmox.com →</span>
+                </a>
+
+                <a href="https://www.proxmox.com/en/proxmox-datacenter-manager" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🎛️</div>
+                    <h3>Proxmox DCM</h3>
+                    <p class="hub-card-description">Centralized management for multiple Proxmox clusters. Monitor
+                        resources and manage infrastructure from a single dashboard.</p>
+                    <span class="tag tag-primary">Infra</span>
+                    <span class="hub-card-link">proxmox.com →</span>
+                </a>
+
+                <a href="https://www.docker.com/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🐳</div>
+                    <h3>Docker</h3>
+                    <p class="hub-card-description">Industry-standard containerization platform. Package apps with
+                        dependencies for consistent deployment across environments.</p>
+                    <span class="tag tag-primary">Infra</span>
+                    <span class="hub-card-link">docker.com →</span>
+                </a>
+            </div>
+
+            <!-- Security & Auth -->
+            <h2 class="section-title">🔐 Security & Auth</h2>
+            <div class="hub-grid">
+                <a href="https://zitadel.com/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🔑</div>
+                    <h3>Zitadel</h3>
+                    <p class="hub-card-description">Modern identity infrastructure with SSO, OIDC, and OAuth2.
+                        Self-hosted alternative to Auth0 with complete user management.</p>
+                    <span class="tag tag-tertiary">Security</span>
+                    <span class="hub-card-link">zitadel.com →</span>
+                </a>
+
+                <a href="https://www.passbolt.com/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🔒</div>
+                    <h3>Passbolt</h3>
+                    <p class="hub-card-description">Open-source team password manager with GPG encryption. Secure
+                        sharing, auditing, and browser/CLI extensions for modern teams.</p>
+                    <span class="tag tag-tertiary">Security</span>
+                    <span class="hub-card-link">passbolt.com →</span>
+                </a>
+
+                <a href="https://github.com/tobychui/zoraxy" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🌐</div>
+                    <h3>Zoraxy</h3>
+                    <p class="hub-card-description">Go-based HTTP reverse proxy with web UI. Supports HTTP/2, WebSocket,
+                        TLS/SSL with auto-renewal via ACME. Easy self-hosting.</p>
+                    <span class="tag tag-tertiary">Security</span>
+                    <span class="hub-card-link">GitHub →</span>
+                </a>
+            </div>
+
+            <!-- Development Tools -->
+            <h2 class="section-title">⚙️ Development</h2>
+            <div class="hub-grid">
+                <a href="https://frappe.io/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🏗️</div>
+                    <h3>Frappe</h3>
+                    <p class="hub-card-description">Low-code Python/JS web framework powering ERPNext. Full-stack with
+                        ORM, REST API, and admin interface built-in.</p>
+                    <span class="tag tag-secondary">Dev</span>
+                    <span class="hub-card-link">frappe.io →</span>
+                </a>
+
+                <a href="https://github.com/makeplane/plane" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">✈️</div>
+                    <h3>Plane</h3>
+                    <p class="hub-card-description">Open-source Jira/Linear alternative. Issue tracking, sprints, and
+                        project management with a modern, clean interface.</p>
+                    <span class="tag tag-secondary">Dev</span>
+                    <span class="hub-card-link">GitHub →</span>
+                </a>
+
+                <a href="https://www.onlyoffice.com/docspace.aspx" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">📄</div>
+                    <h3>OnlyOffice Docs</h3>
+                    <p class="hub-card-description">Self-hostable office suite with full MS Office compatibility.
+                        Documents, spreadsheets, presentations with real-time collaboration.</p>
+                    <span class="tag tag-secondary">Dev</span>
+                    <span class="hub-card-link">onlyoffice.com →</span>
+                </a>
+
+                <a href="https://bentopdf.com/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">📑</div>
+                    <h3>BentoPDF</h3>
+                    <p class="hub-card-description">Privacy-first PDF toolkit that runs in-browser. Merge, split,
+                        rotate, and organize PDFs locally. No server uploads.</p>
+                    <span class="tag tag-secondary">Dev</span>
+                    <span class="hub-card-link">bentopdf.com →</span>
+                </a>
+            </div>
+
+            <!-- Monitoring & Tools -->
+            <h2 class="section-title">🔧 Monitoring & Tools</h2>
+            <div class="hub-grid">
+                <a href="https://openwebui.com/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🤖</div>
+                    <h3>OpenWebUI</h3>
+                    <p class="hub-card-description">Self-hosted AI interface for LLMs. Works with Ollama and OpenAI
+                        APIs. RAG support, image generation, offline capable.</p>
+                    <span class="tag tag-warning">Tools</span>
+                    <span class="hub-card-link">openwebui.com →</span>
+                </a>
+
+                <a href="https://homarr.dev/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">🏠</div>
+                    <h3>Homarr</h3>
+                    <p class="hub-card-description">Modern dashboard for self-hosted apps. Docker integration, service
+                        status, customizable widgets. Manage your homelab beautifully.</p>
+                    <span class="tag tag-warning">Tools</span>
+                    <span class="hub-card-link">homarr.dev →</span>
+                </a>
+
+                <a href="https://healthchecks.io/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">💓</div>
+                    <h3>Healthchecks.io</h3>
+                    <p class="hub-card-description">Cron job & scheduled task monitoring. Dead man's switch alerts when
+                        jobs fail. Slack, email, Discord integrations.</p>
+                    <span class="tag tag-warning">Tools</span>
+                    <span class="hub-card-link">healthchecks.io →</span>
+                </a>
+
+                <a href="https://scanopy.net/" target="_blank" class="hub-card">
+                    <div class="hub-card-icon">📸</div>
+                    <h3>Scanopy</h3>
+                    <p class="hub-card-description">Automatic network documentation tool. Self-hosted with AGPL-3.0
+                        license. Map and document your infrastructure automatically.</p>
+                    <span class="tag tag-warning">Tools</span>
+                    <span class="hub-card-link">scanopy.net →</span>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 906.sh — Tech Stack</p>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

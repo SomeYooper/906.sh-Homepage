@@ -1,0 +1,201 @@
+/* 906.sh - Projects Page Styles */
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 28px;
+}
+
+.project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+}
+
+.project-card:hover {
+    border-color: var(--border-glow);
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.15);
+    transform: translateY(-6px);
+}
+
+.project-image {
+    height: 140px;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.project-content {
+    padding: 24px;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.project-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 4px;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+}
+
+.project-tag.secondary {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+    color: var(--accent-secondary);
+}
+
+.project-tag.tertiary {
+    background: rgba(255, 0, 170, 0.1);
+    border-color: rgba(255, 0, 170, 0.3);
+    color: var(--accent-tertiary);
+}
+
+.project-card h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.project-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.project-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.project-link {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+}
+
+.project-link.primary {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: var(--bg-dark);
+}
+
+.project-link.secondary {
+    border: 1px solid var(--border-glow);
+    color: var(--accent-primary);
+}
+
+.project-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+/* GitHub Repos Section */
+.github-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.github-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.github-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 3px 0 0 3px;
+}
+
+.github-card:hover {
+    border-color: var(--border-glow);
+    transform: translateX(6px);
+}
+
+.github-card h4 {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent-primary);
+}
+
+.github-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.github-repo-link {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--accent-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.github-repo-link:hover {
+    color: var(--accent-primary);
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .github-grid {
+        grid-template-columns: 1fr;
+    }
+}

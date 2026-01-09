@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing | 906.sh</title>
+    <meta name="description" content="906.sh Writing - Technical articles, notes, and thoughts">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='30%25'%3E%3Cstop offset='0%25' stop-color='%2300ff88'/%3E%3Cstop offset='55%25' stop-color='%2338BDF8'/%3E%3Cstop offset='100%25' stop-color='%230a0e1a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect rx='16' width='64' height='64' fill='url(%23g)'/%3E%3C/svg%3E">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/writing.css">
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 60px 20px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 0, 100, 0.2);
+            border-color: rgba(255, 0, 100, 0.5);
+            color: #ff6b6b;
+        }
+
+        .modal-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .modal-date {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .modal-category {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 4px 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-hero-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .modal-text {
+            font-size: 17px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .modal-text p {
+            margin-bottom: 20px;
+        }
+
+        .modal-text h2 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-primary);
+            margin: 40px 0 20px;
+        }
+
+        .modal-text ul,
+        .modal-text ol {
+            margin: 20px 0;
+            padding-left: 24px;
+        }
+
+        .modal-text li {
+            margin-bottom: 10px;
+        }
+
+        .modal-text code {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--accent-secondary);
+        }
+
+        .modal-text pre {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+            overflow-x: auto;
+        }
+
+        .modal-text pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .modal-text blockquote {
+            border-left: 3px solid var(--accent-primary);
+            padding-left: 20px;
+            margin: 24px 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .modal-footer {
+            padding: 20px 40px;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-share {
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-btn {
+            padding: 10px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .share-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .image-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-img {
+            height: 140px;
+            width: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .gallery-img:hover {
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 600px) {
+            .gallery-img {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand">
+                <img src="images/logo.png" alt="906.sh" class="brand-logo">
+                <span class="brand-name">906.SH</span>
+            </a>
+            <nav>
+                <a href="hub.html">Hub</a>
+                <a href="projects.html">Projects</a>
+                <a href="writing.html" class="active">Writing</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <button class="menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <a href="index.html" class="btn btn-primary">← Home</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container" style="max-width: 900px;">
+            <div class="page-header">
+                <h1>✍️ Writing</h1>
+                <p>Technical articles, development notes, and thoughts on building software.</p>
+            </div>
+
+            <div class="articles-list">
+                <div class="article-card" onclick="openArticle('game-hosting')">
+                    <div class="article-meta">
+                        <span class="article-date">2026-01-03</span>
+                        <span class="article-category">Hosting & Gaming</span>
+                    </div>
+                    <h3>Game Server Engineering: Pterodactyl & Modded Minecraft</h3>
+                    <p>From setting up Pterodactyl panels for modded Minecraft to unwinding with Legion TD on WC3.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+
+                <div class="article-card" onclick="openArticle('winter-companions')">
+                    <div class="article-meta">
+                        <span class="article-date">2026-01-03</span>
+                        <span class="article-category">Personal</span>
+                    </div>
+                    <h3>Winter Camping & Companions</h3>
+                    <p>Escaping to Vagabond Resort and why winter is the best season for a dog allergic to grass.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+
+                <div class="article-card" onclick="openArticle('infra-evolution')">
+                    <div class="article-meta">
+                        <span class="article-date">2026-01-03</span>
+                        <span class="article-category">Infrastructure</span>
+                    </div>
+                    <h3>20 Years of Homelab: From Map Modding to Enterprise Clusters</h3>
+                    <p>Tracing the evolution from Battlefield 1942 map modding to managing complex Proxmox clusters and
+                        WISP networks.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+
+                <div class="article-card" onclick="openArticle('full-stack-journey')">
+                    <div class="article-meta">
+                        <span class="article-date">2026-01-02</span>
+                        <span class="article-category">Web Dev</span>
+                    </div>
+                    <h3>Full Stack Evolution: 2006 to 2026</h3>
+                    <p>A journey through two decades of web technologies, from early clan sites to modern Odoo and
+                        Laravel deployments.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+
+                <div class="article-card" onclick="openArticle('automation-security')">
+                    <div class="article-meta">
+                        <span class="article-date">2025-12-28</span>
+                        <span class="article-category">Security & Automation</span>
+                    </div>
+                    <h3>The Art of Automation: Ethical Hacking & Bots</h3>
+                    <p>Building SMS auto-messaging bots on Android and securing distributed VPS systems.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+
+                <div class="article-card" onclick="openArticle('network-engineering')">
+                    <div class="article-meta">
+                        <span class="article-date">2025-12-15</span>
+                        <span class="article-category">Networking</span>
+                    </div>
+                    <h3>Network Engineering in the Wild</h3>
+                    <p>Managing multi-subnet environments, VLAN segmentation, and high-availability routing.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Article Modal -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <div class="modal-meta">
+                    <span class="modal-date" id="modal-date"></span>
+                    <span class="modal-category" id="modal-category"></span>
+                </div>
+                <h1 class="modal-title" id="modal-title"></h1>
+            </div>
+            <div class="modal-body">
+                <div class="modal-hero-image" id="modal-image"></div>
+                <div class="modal-text" id="modal-text"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-share">
+                    <button class="share-btn" onclick="copyLink()">📋 Copy Link</button>
+                    <button class="share-btn" onclick="shareTwitter()">🐦 Tweet</button>
+                </div>
+                <button class="share-btn" onclick="closeModal()">Close Article</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 906.sh — Writing</p>
+    </footer>
+
+    <script>
+        // Article content database
+        const articles = {
+            'game-hosting': {
+                title: 'Game Server Engineering: Pterodactyl & Modded Minecraft',
+                date: '2026-01-03',
+                category: 'Hosting & Gaming',
+                image: '🎮',
+                content: `
+            <p>Managing game servers has come a long way from manual screen sessions and startup scripts. For my hosting needs, I've standardized on <strong>Pterodactyl Panel</strong>, the open-source standard for game server management.</p>
+            
+            <h2>The Setup</h2>
+            <p>My Pterodactyl deployment runs on a Dockerized environment within my Proxmox cluster. This allows for:</p>
+            <ul>
+                <li><strong>Isolation</strong>: Each game server runs in its own container with resource limits.</li>
+                <li><strong>Scalability</strong>: Easy node deployment to expand capacity.</li>
+                <li><strong>Modpack Management</strong>: Simplified installation for heavy modpacks like <em>All The Mods 9</em> or <em>Vault Hunters</em>.</li>
+            </ul>
+
+            <h2>Modded Minecraft & Downtime</h2>
+            <p>The primary workload is heavily modded Minecraft instances. Hosting these requires careful tuning of JVM arguments and garbage collection to ensure smooth TPS.</p>
+
+            <p>When I'm not tweaking config files or fixing block ID conflicts, you can find me on <strong>Warcraft III</strong> playing <em>Legion TD</em>. It's the perfect strategic balance to the technical chaos of server administration.</p>
+            `
+            },
+            'winter-companions': {
+                title: 'Winter Camping & Companions',
+                date: '2026-01-03',
+                category: 'Personal',
+                image: '❄️',
+                content: `
+            <p>Living in the UP means embracing the seasons. For me and my four-legged companions, winter isn't just a season—it's our freedom.</p>
+
+            <h2>The Vagabond Escape</h2>
+            <p>We frequent the <strong>Vagabond Resort</strong> in Stonington. It's our go-to spot for disconnecting and enjoying the raw beauty of the North. The silence of the snow-covered landscape is unmatched.</p>
+
+            <h2>Allergies & Snow Days</h2>
+            <p>Ironically, my dog is allergic to grass. This makes summer outings a challenge, but winter? Winter is her playground. No grass, no pollen, just endless snow to run through.</p>
+            
+            <div class="image-gallery">
+                <img src="images/generated_art/dog_bitmoji.png" alt="Dog Cartoon" class="gallery-img">
+                <img src="images/real_cat.jpg" alt="Real Dog" class="gallery-img">
+            </div>
+
+            <p>Back home, she spends her time hanging out with the kitty. They've formed an unlikely alliance against the "dangers" of the vacuum cleaner and the boredom of rainy days. It's a peaceful coexistence that keeps the house lively.</p>
+            
+            <div class="image-gallery">
+                <img src="images/generated_art/cat_shoulder_isolated.png" alt="Cat Cartoon" class="gallery-img">
+                <img src="images/real_dog.jpg" alt="Real Cat" class="gallery-img">
+            </div>
+            `
+            },
+            'infra-evolution': {
+                title: '20 Years of Homelab: From Map Modding to Enterprise Clusters',
+                date: '2026-01-03',
+                category: 'Infrastructure',
+                image: '🖥️',
+                content: `
+            <p>My journey into infrastructure didn't start with enterprise servers—it started with <strong>Warcraft 3</strong> and <strong>Battlefield 1942</strong> custom map modding. What began as tweaking configuration files for better clan matches evolved into a two-decade obsession with systems administration and network engineering.</p>
+            
+            <h2>The Early Days (2006-2010)</h2>
+            <p>In the mid-2000s, I was running cPanel/WHM instances and proxying VPSs to resell hosting services. This was the wild west of the web, where understanding the LAMP stack wasn't just a job requirement—it was survival. I learned to:</p>
+            <ul>
+                <li>Host high-traffic web radio stations with automated broadcasting</li>
+                <li>Manage dedicated servers for gaming communities</li>
+                <li>Setup automation services for advertisement networks</li>
+            </ul>
+
+            <h2>The Homelab Revolution</h2>
+            <p>Today, my infrastructure has matured into a complex, self-hosted ecosystem. My current setup consists of:</p>
+            <ul>
+                <li><strong>5-Node Cluster</strong>: A mix of high-performance compute nodes handling everything from media streaming to development databases.</li>
+                <li><strong>Proxmox Containers</strong>: Leveraging LXC for lightweight, distributed application hosting.</li>
+                <li><strong>Hybrid Networking</strong>: Integrating a WISP connecting network (192.168.100.x) with my main internal subnet (192.168.1.x) via custom routing tables.</li>
+            </ul>
+
+            <blockquote>The principles I learned modding games—optimization, resource management, and user experience—are the exact same ones I use today when configuring Kubernetes clusters or debugging VLAN tags.</blockquote>
+
+            <p>It's not just about keeping the lights on; it's about building resilient systems that can scale from a single user to a community of thousands.</p>
+            `
+            },
+            'full-stack-journey': {
+                title: 'Full Stack Evolution: 2006 to 2026',
+                date: '2026-01-02',
+                category: 'Web Dev',
+                image: '⚡',
+                content: `
+            <p>I wrote my first lines of production HTML/CSS/JS in 2006 for gaming clan websites. Back then, "full stack" meant knowing how to FTP files and edit an <code>index.php</code>. Twenty years later, the landscape has transformed, and so has my toolbelt.</p>
+
+            <h2>From PHP to Python & Node.js</h2>
+            <p>My development journey has spanned the entire spectrum of web technologies:</p>
+            <ul>
+                <li><strong>CMS Era</strong>: Deep dives into WordPress customization and plugin development.</li>
+                <li><strong>Enterprise RP</strong>: Implementing and modifying Odoo for business logic automation.</li>
+                <li><strong>Modern Frameworks</strong>: Building scalable applications with Laravel and Node.js.</li>
+                <li><strong>System Level</strong>: Custom application modifications in C++ and C# for Windows environments.</li>
+            </ul>
+
+            <h2>Building for the Modern Web</h2>
+            <p>One of my recent focuses has been Integrating automation services using system APIs. Whether it's a Python script handling data ingestion or a C# utility for window management, the goal is always the same: <strong>efficiency</strong>.</p>
+            
+            <pre><code>// The evolution of my mindset:
+// 2006: "How do I center this div?"
+// 2026: "How do I architect this microservice for high availability?"</code></pre>
+
+            <p>Despite the changes in syntax and frameworks, the core challenge remains—solving human problems with elegant code.</p>
+            `
+            },
+            'automation-security': {
+                title: 'The Art of Automation: Ethical Hacking & Bots',
+                date: '2025-12-28',
+                category: 'Security & Automation',
+                image: '🛡️',
+                content: `
+            <p>Security isn't just a checkbox; it's a mindset. With a background in ethical hacking, I approach every system I build with a defensive posture. But security knowledge also unlocks incredible potential for automation.</p>
+
+            <h2>The SMS Bot Project</h2>
+            <p>One of my favorite recent projects involved leveraging an Android device (running Android 10+) to build an SMS auto-messaging bot. By interfacing directly with the device's capabilities, I created a system that could:</p>
+            <ul>
+                <li>Automatically respond to inquiries with context-aware messages</li>
+                <li>Handle message queues with reliable delivery</li>
+                <li>Operate entirely on commodity hardware without expensive 3rd party gateways</li>
+            </ul>
+
+            <h2>Ethical Hacking & Defense</h2>
+            <p>Running community forums and dedicated servers made me a target early on. I learned to defend by learning to attack. Understanding SQL injection, XSS, and buffer overflows allowed me to harden my own deployments effectively.</p>
+
+            <blockquote>True automation requires a deep understanding of the systems you're controlling. You can't automate what you don't understand.</blockquote>
+            `
+            },
+            'network-engineering': {
+                title: 'Network Engineering in the Wild',
+                date: '2025-12-15',
+                category: 'Networking',
+                image: '🌐',
+                content: `
+            <p>There's networking in the cloud, and then there's networking in the real world. My experience bridges the gap between software-defined networks and physical cabling.</p>
+
+            <h2>Bridging Networks</h2>
+            <p>My current infrastructure is a testament to hybrid networking. I manage a complex environment that bridges:</p>
+            <ul>
+                <li><strong>Local VLANs</strong>: Segmenting traffic for security and performance.</li>
+                <li><strong>WISP Integration</strong>: Connecting a Wireless ISP network (192.168.100.x) directly into my main routing infrastructure.</li>
+                <li><strong>Tunneling</strong>: Utilizing VPNs and reverse proxies to expose internal services securely to the public internet.</li>
+            </ul>
+
+            <h2>The Proxmox Factor</h2>
+            <p>Networking for containers adds another layer of complexity. With Proxmox, I manage virtual bridges and firewalls that ensure my distributed VPS systems remain isolated yet interconnected. It's a delicate balance of accessibility and security.</p>
+            
+            <p>Whether it's configuring a Mikrotik router or setting up iptables rules on a Linux node, the fundamentals of TCP/IP are the bedrock of everything I do.</p>
+            `
+            }
+        };
+
+        function openArticle(articleId) {
+            const article = articles[articleId];
+            if (!article) return;
+
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-date').textContent = article.date;
+            document.getElementById('modal-category').textContent = article.category;
+            document.getElementById('modal-image').textContent = article.image;
+            document.getElementById('modal-text').innerHTML = article.content;
+
+            document.getElementById('modal-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Update URL for sharing
+            history.pushState({}, '', `?article=${articleId}`);
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+
+            document.getElementById('modal-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+            history.pushState({}, '', window.location.pathname);
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link copied to clipboard!');
+        }
+
+        function shareTwitter() {
+            const title = document.getElementById('modal-title').textContent;
+            const url = window.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Check for article in URL on load
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article');
+            if (articleId && articles[articleId]) {
+                openArticle(articleId);
+            }
+        });
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

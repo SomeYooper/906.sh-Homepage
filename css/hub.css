@@ -1,0 +1,71 @@
+/* 906.sh - Hub Page Styles */
+
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.hub-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.hub-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hub-card:hover {
+    border-color: var(--border-glow);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.12);
+    transform: translateY(-4px);
+}
+
+.hub-card:hover::before {
+    opacity: 1;
+}
+
+.hub-card-icon {
+    font-size: 32px;
+}
+
+.hub-card h3 {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+}
+
+.hub-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .hub-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

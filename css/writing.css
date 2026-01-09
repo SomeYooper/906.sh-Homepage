@@ -1,0 +1,101 @@
+/* 906.sh - Writing Page Styles */
+
+.articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.article-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 24px 28px;
+    position: relative;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+}
+
+.article-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.article-card:hover {
+    border-color: var(--border-glow);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    transform: translateX(8px);
+}
+
+.article-card:hover::before {
+    opacity: 1;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.article-date {
+    font-family: var(--font-mono);
+}
+
+.article-category {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 4px;
+    color: var(--accent-secondary);
+    text-transform: uppercase;
+}
+
+.article-card h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.article-card:hover h3 {
+    color: var(--accent-primary);
+}
+
+.article-card p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

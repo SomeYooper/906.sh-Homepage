@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>906.sh | Developer Hub</title>
+  <meta name="description" content="906.sh - Personal developer gateway and interactive hub">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='30%25'%3E%3Cstop offset='0%25' stop-color='%2300ff88'/%3E%3Cstop offset='55%25' stop-color='%2338BDF8'/%3E%3Cstop offset='100%25' stop-color='%230a0e1a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect rx='16' width='64' height='64' fill='url(%23g)'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    /* Layout */
+    .dashboard {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Hero Card - Full Width with Code Display */
+    .hero-card {
+      width: 100%;
+    }
+
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-text h1 {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .hero-text p {
+      margin-bottom: 20px;
+    }
+
+    .donate-section {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 20px;
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 10px;
+    }
+
+    .donate-section p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .btn-donate {
+      padding: 10px 20px;
+      font-size: 12px;
+    }
+
+    .donate-note {
+      display: none;
+    }
+
+    /* Code Display */
+    .code-display {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      height: 280px;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .code-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .code-dot.red {
+      background: #ff5f56;
+    }
+
+    .code-dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .code-dot.green {
+      background: #27c93f;
+    }
+
+    .code-filename {
+      margin-left: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .code-content {
+      padding: 16px;
+      height: calc(100% - 40px);
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .code-line {
+      white-space: pre;
+      opacity: 0;
+      animation: fadeInLine 0.3s forwards;
+    }
+
+    .code-line .keyword {
+      color: #ff79c6;
+    }
+
+    .code-line .string {
+      color: #f1fa8c;
+    }
+
+    .code-line .function {
+      color: #8be9fd;
+    }
+
+    .code-line .comment {
+      color: #6272a4;
+    }
+
+    .code-line .number {
+      color: #bd93f9;
+    }
+
+    .code-line .variable {
+      color: #50fa7b;
+    }
+
+    .code-line .operator {
+      color: #ff79c6;
+    }
+
+    @keyframes fadeInLine {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Middle Row */
+    .middle-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .terminal-card {
+      min-height: 350px;
+    }
+
+    .terminal-content {
+      height: 220px;
+    }
+
+    /* Footer Links Section */
+    .footer-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px 30px;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    .footer-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+      border-radius: 16px 16px 0 0;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .domain-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .domain-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .domain-link:hover {
+      background: rgba(0, 255, 136, 0.1);
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .github-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      min-width: 260px;
+    }
+
+    .github-footer-link {
+      font-family: var(--font-display);
+      font-size: 11px;
+      color: var(--accent-primary);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1200px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+      }
+
+      .middle-row {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .github-footer {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body class="page-index">
+  <div class="grid-bg"></div>
+  <div class="scan-line"></div>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <img src="images/logo.png" alt="906.sh" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-name">906.SH</span>
+          <span class="brand-tagline">Developer Hub</span>
+        </div>
+      </a>
+      <nav>
+        <a href="hub.html">Hub</a>
+        <a href="projects.html">Projects</a>
+        <a href="writing.html">Writing</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <button class="menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a href="contact.html" class="btn btn-primary">Connect →</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="dashboard">
+
+        <!-- Hero Card - Full Width -->
+        <div class="card hero-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="icon">⚡</span>
+              System Online
+            </div>
+            <div class="status-dot"></div>
+          </div>
+          <div class="card-content">
+            <div class="hero-split">
+              <div class="hero-left">
+                <div class="hero-text">
+                  <h1>Welcome to<br><span class="highlight">906.SH</span></h1>
+                  <p>Personal developer gateway and interactive command center. Building tools for the Upper Peninsula
+                    and beyond.</p>
+                </div>
+                <div class="donate-section">
+                  <p>☕ Support Development</p>
+                  <button class="btn-donate" onclick="openStripeDonation()">💳 Donate</button>
+                </div>
+              </div>
+              <div class="code-display">
+                <div class="code-header">
+                  <div class="code-dot red"></div>
+                  <div class="code-dot yellow"></div>
+                  <div class="code-dot green"></div>
+                  <span class="code-filename">server.js — node process</span>
+                </div>
+                <div class="code-content" id="code-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Row -->
+        <div class="middle-row">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🕐</span>
+                System Time
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="clock-display">
+                <div class="clock-time" id="clock-time">00:00:00</div>
+                <div class="clock-date" id="clock-date">Loading...</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card terminal-card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">$</span>
+                Terminal
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="terminal-content" id="terminal-content">
+                <div class="terminal-line">
+                  <span class="terminal-prompt">$</span>
+                  <span class="terminal-text">Welcome to 906.sh terminal!</span>
+                </div>
+                <div class="terminal-line">
+                  <span class="terminal-prompt">$</span>
+                  <span class="terminal-text">Type 'help' for commands.</span>
+                </div>
+              </div>
+              <div class="terminal-input-area">
+                <span class="terminal-prompt">$</span>
+                <input type="text" id="terminal-input" placeholder="Enter command..." autocomplete="off">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">📊</span>
+                Stats
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="clock-display" style="text-align: center;">
+                <div
+                  style="font-family: var(--font-display); font-size: 36px; font-weight: 700; color: var(--accent-primary);">
+                  3</div>
+                <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">
+                  Ventures</div>
+                <div
+                  style="margin-top: 16px; font-family: var(--font-display); font-size: 36px; font-weight: 700; color: var(--accent-secondary);">
+                  ∞</div>
+                <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">
+                  Coffee</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="footer-section">
+          <div class="footer-content">
+            <div class="domain-links">
+              <a href="https://906.sh" class="domain-link"><span>🏔️</span> 906.sh</a>
+              <a href="https://emcknight.me" target="_blank" class="domain-link"><span>👤</span> emcknight.me</a>
+              <a href="https://northernwisp.com" target="_blank" class="domain-link"><span>📡</span>
+                northernwisp.com</a>
+              <a href="https://northernwisp.net" target="_blank" class="domain-link"><span>🌐</span>
+                northernwisp.net</a>
+              <a href="https://deltacounty.services" target="_blank" class="domain-link"><span>🛒</span>
+                deltacounty.services</a>
+              <a href="https://dailydelta.org" target="_blank" class="domain-link"><span>�</span> dailydelta.org</a>
+              <a href="photography.html" class="domain-link"><span>📸</span> Photos</a>
+            </div>
+            <div class="github-footer">
+              <div class="github-profile-badge" data-user="SomeYooper"></div>
+              <a href="https://github.com/SomeYooper" target="_blank" class="github-footer-link">@SomeYooper →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="control-panel">
+    <div class="control-btn" onclick="cycleTheme()" title="Change Theme" id="theme-btn">🎨</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/Rapsssito/github-profile-badge@latest/src/widget.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Animated code display - realistic Node.js server code
+    const codeLines = [
+      { text: '<span class="comment">// 906.sh API Server - Production Build</span>' },
+      { text: '<span class="comment">// Initializing microservices architecture...</span>' },
+      { text: '' },
+      { text: '<span class="keyword">const</span> <span class="variable">express</span> = <span class="function">require</span>(<span class="string">\'express\'</span>);' },
+      { text: '<span class="keyword">const</span> <span class="variable">mongoose</span> = <span class="function">require</span>(<span class="string">\'mongoose\'</span>);' },
+      { text: '<span class="keyword">const</span> <span class="variable">Redis</span> = <span class="function">require</span>(<span class="string">\'ioredis\'</span>);' },
+      { text: '<span class="keyword">const</span> { <span class="variable">createServer</span> } = <span class="function">require</span>(<span class="string">\'http\'</span>);' },
+      { text: '<span class="keyword">const</span> { <span class="variable">Server</span> } = <span class="function">require</span>(<span class="string">\'socket.io\'</span>);' },
+      { text: '' },
+      { text: '<span class="keyword">const</span> <span class="variable">app</span> = <span class="function">express</span>();' },
+      { text: '<span class="keyword">const</span> <span class="variable">server</span> = <span class="function">createServer</span>(<span class="variable">app</span>);' },
+      { text: '<span class="keyword">const</span> <span class="variable">io</span> = <span class="keyword">new</span> <span class="function">Server</span>(<span class="variable">server</span>);' },
+      { text: '' },
+      { text: '<span class="comment">// Database connection pool configuration</span>' },
+      { text: '<span class="keyword">const</span> <span class="variable">dbConfig</span> = {' },
+      { text: '  <span class="variable">uri</span>: <span class="variable">process</span>.<span class="variable">env</span>.<span class="variable">MONGODB_URI</span>,' },
+      { text: '  <span class="variable">options</span>: {' },
+      { text: '    <span class="variable">maxPoolSize</span>: <span class="number">50</span>,' },
+      { text: '    <span class="variable">serverSelectionTimeoutMS</span>: <span class="number">5000</span>,' },
+      { text: '    <span class="variable">socketTimeoutMS</span>: <span class="number">45000</span>,' },
+      { text: '  }' },
+      { text: '};' },
+      { text: '' },
+      { text: '<span class="comment">// Redis cache layer initialization</span>' },
+      { text: '<span class="keyword">const</span> <span class="variable">redis</span> = <span class="keyword">new</span> <span class="function">Redis</span>({' },
+      { text: '  <span class="variable">host</span>: <span class="variable">process</span>.<span class="variable">env</span>.<span class="variable">REDIS_HOST</span>,' },
+      { text: '  <span class="variable">port</span>: <span class="number">6379</span>,' },
+      { text: '  <span class="variable">retryDelayOnFailover</span>: <span class="number">100</span>,' },
+      { text: '  <span class="variable">enableReadyCheck</span>: <span class="keyword">true</span>,' },
+      { text: '});' },
+      { text: '' },
+      { text: '<span class="comment">// Middleware stack configuration</span>' },
+      { text: '<span class="variable">app</span>.<span class="function">use</span>(<span class="variable">express</span>.<span class="function">json</span>({ <span class="variable">limit</span>: <span class="string">\'10mb\'</span> }));' },
+      { text: '<span class="variable">app</span>.<span class="function">use</span>(<span class="variable">express</span>.<span class="function">urlencoded</span>({ <span class="variable">extended</span>: <span class="keyword">true</span> }));' },
+      { text: '<span class="variable">app</span>.<span class="function">use</span>(<span class="function">helmet</span>());' },
+      { text: '<span class="variable">app</span>.<span class="function">use</span>(<span class="function">compression</span>());' },
+      { text: '<span class="variable">app</span>.<span class="function">use</span>(<span class="function">cors</span>({ <span class="variable">origin</span>: <span class="variable">allowedOrigins</span> }));' },
+      { text: '' },
+      { text: '<span class="comment">// Rate limiting for API endpoints</span>' },
+      { text: '<span class="keyword">const</span> <span class="variable">rateLimiter</span> = <span class="function">rateLimit</span>({' },
+      { text: '  <span class="variable">windowMs</span>: <span class="number">15</span> * <span class="number">60</span> * <span class="number">1000</span>,' },
+      { text: '  <span class="variable">max</span>: <span class="number">100</span>,' },
+      { text: '  <span class="variable">standardHeaders</span>: <span class="keyword">true</span>,' },
+      { text: '  <span class="variable">legacyHeaders</span>: <span class="keyword">false</span>,' },
+      { text: '});' },
+      { text: '' },
+      { text: '<span class="comment">// WebSocket connection handler</span>' },
+      { text: '<span class="variable">io</span>.<span class="function">on</span>(<span class="string">\'connection\'</span>, (<span class="variable">socket</span>) <span class="operator">=></span> {' },
+      { text: '  <span class="variable">console</span>.<span class="function">log</span>(<span class="string">`Client connected: ${socket.id}`</span>);' },
+      { text: '' },
+      { text: '  <span class="variable">socket</span>.<span class="function">on</span>(<span class="string">\'subscribe\'</span>, <span class="keyword">async</span> (<span class="variable">channel</span>) <span class="operator">=></span> {' },
+      { text: '    <span class="keyword">await</span> <span class="variable">socket</span>.<span class="function">join</span>(<span class="variable">channel</span>);' },
+      { text: '    <span class="variable">socket</span>.<span class="function">emit</span>(<span class="string">\'subscribed\'</span>, { <span class="variable">channel</span> });' },
+      { text: '  });' },
+      { text: '' },
+      { text: '  <span class="variable">socket</span>.<span class="function">on</span>(<span class="string">\'disconnect\'</span>, () <span class="operator">=></span> {' },
+      { text: '    <span class="variable">console</span>.<span class="function">log</span>(<span class="string">`Client disconnected: ${socket.id}`</span>);' },
+      { text: '  });' },
+      { text: '});' },
+      { text: '' },
+      { text: '<span class="comment">// Health check endpoint</span>' },
+      { text: '<span class="variable">app</span>.<span class="function">get</span>(<span class="string">\'/api/health\'</span>, <span class="keyword">async</span> (<span class="variable">req</span>, <span class="variable">res</span>) <span class="operator">=></span> {' },
+      { text: '  <span class="keyword">const</span> <span class="variable">status</span> = {' },
+      { text: '    <span class="variable">server</span>: <span class="string">\'operational\'</span>,' },
+      { text: '    <span class="variable">database</span>: <span class="variable">mongoose</span>.<span class="variable">connection</span>.<span class="variable">readyState</span>,' },
+      { text: '    <span class="variable">cache</span>: <span class="variable">redis</span>.<span class="variable">status</span>,' },
+      { text: '    <span class="variable">uptime</span>: <span class="variable">process</span>.<span class="function">uptime</span>(),' },
+      { text: '    <span class="variable">memory</span>: <span class="variable">process</span>.<span class="function">memoryUsage</span>(),' },
+      { text: '  };' },
+      { text: '  <span class="variable">res</span>.<span class="function">json</span>(<span class="variable">status</span>);' },
+      { text: '});' },
+      { text: '' },
+      { text: '<span class="comment">// Server initialization</span>' },
+      { text: '<span class="keyword">const</span> <span class="variable">PORT</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="variable">PORT</span> || <span class="number">3000</span>;' },
+      { text: '<span class="variable">server</span>.<span class="function">listen</span>(<span class="variable">PORT</span>, () <span class="operator">=></span> {' },
+      { text: '  <span class="variable">console</span>.<span class="function">log</span>(<span class="string">`🚀 Server running on port ${PORT}`</span>);' },
+      { text: '});' },
+      { text: '' },
+      { text: '<span class="comment">// [LOOP] Restarting display...</span>' },
+    ];
+
+    let currentLine = 0;
+    const codeContent = document.getElementById('code-content');
+    const maxVisibleLines = 14;
+
+    function addCodeLine() {
+      const line = document.createElement('div');
+      line.className = 'code-line';
+      line.innerHTML = codeLines[currentLine].text || '&nbsp;';
+      line.style.animationDelay = '0s';
+      codeContent.appendChild(line);
+
+      // Remove old lines if too many
+      while (codeContent.children.length > maxVisibleLines) {
+        codeContent.removeChild(codeContent.firstChild);
+      }
+
+      currentLine++;
+      if (currentLine >= codeLines.length) {
+        currentLine = 0;
+        // Clear and restart
+        setTimeout(() => {
+          codeContent.innerHTML = '';
+        }, 1000);
+      }
+    }
+
+    // Start the code animation
+    setInterval(addCodeLine, 400);
+  </script>
+</body>
+
+</html>
