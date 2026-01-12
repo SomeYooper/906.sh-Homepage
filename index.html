@@ -315,7 +315,51 @@
           <div class="card-header">
             <div class="card-title">
               <span class="icon">⚡</span>
-              System Online
+              <div id="signal-container" class="hidden">
+    <span class="indicator">●</span>
+    <span id="signal-text">Loading...</span>
+</div>
+
+<script>
+async function fetchSignal() {
+    // -----------------------------------------------------------
+    // CONFIG: REPLACE 'USER' AND 'REPO' WITH YOUR ACTUAL DETAILS
+    // Example: https://raw.githubusercontent.com/SomeYooper/906sh/main/signal.json
+    // -----------------------------------------------------------
+    const url = 'https://raw.githubusercontent.com/SomeYooper/906.sh-Homepage/main/signal.json';
+    
+    try {
+        // Add timestamp to bypass cache
+        const response = await fetch(url + '?t=' + new Date().getTime());
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('signal-text').innerText = data.status;
+            document.getElementById('signal-container').classList.remove('hidden');
+        }
+    } catch (error) {
+        console.log('No signal found');
+    }
+}
+fetchSignal();
+</script>
+
+<style>
+/* Simple styling for the signal ticker */
+.hidden { display: none; }
+#signal-container {
+    background: #111;
+    color: #39ff14; /* Hacker green */
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: monospace;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #333;
+}
+.indicator { animation: blink 2s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+</style>
             </div>
             <div class="status-dot"></div>
           </div>
