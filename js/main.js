@@ -48,7 +48,7 @@ const fileSystem = {
     },
     '/projects': {
         type: 'dir',
-        children: ['906sh.md', 'northernwisp.md', 'deltacounty.md', 'dailydelta.md']
+        children: ['906sh.md', 'northernwisp.md', '906care.md', 'deltacounty.md', 'dailydelta.md']
     },
     '/projects/906sh.md': {
         type: 'file',
@@ -57,6 +57,10 @@ const fileSystem = {
     '/projects/northernwisp.md': {
         type: 'file',
         content: '# NorthernWISP\nEducational sector for open-source self-hosting.\nIntroduction to the digital landscape.'
+    },
+    '/projects/906care.md': {
+        type: 'file',
+        content: '# 906Care\nHCBS management platform for clients, caregivers, billing, EVV, reporting, audit trails, and compliance.'
     },
     '/projects/deltacounty.md': {
         type: 'file',
