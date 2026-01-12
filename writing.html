@@ -301,6 +301,17 @@
             </div>
 
             <div class="articles-list">
+                <div class="article-card" onclick="openArticle('initialization-log')">
+                    <div class="article-meta">
+                        <span class="article-date">2026-01-10</span>
+                        <span class="article-category">Origin</span>
+                    </div>
+                    <h3>Initialization Log: The Origin Story</h3>
+                    <p>Two parallel storylines: service-first work and a 20-year obsession with infrastructure,
+                        systems, and reliable tech.</p>
+                    <span class="read-more">Read Article →</span>
+                </div>
+
                 <div class="article-card" onclick="openArticle('game-hosting')">
                     <div class="article-meta">
                         <span class="article-date">2026-01-03</span>
@@ -398,6 +409,80 @@
     <script>
         // Article content database
         const articles = {
+            'initialization-log': {
+                title: 'Initialization Log: The Origin Story',
+                date: '2026-01-10',
+                category: 'Origin',
+                image: '🧭',
+                content: `
+            <p>Ey der fellow Yooper,</p>
+            <p>If you look at my resume, you will see two distinct stories. One is a list of job titles—receptionist,
+            manager, cook—that shows a history of showing up, working hard, and serving others. The other story,
+            highlighted in the <strong>TECHNICAL_ORIGIN</strong> section, is the one that defines me: a 20-year
+            obsession with building, breaking, and fixing computer-based applications and systems.</p>
+
+            <h2>// INITIALIZATION_LOG</h2>
+            <p>For a significant stretch of time, my primary "job" was largely invisible. I stepped away from a
+            trajectory in media and sales to help care for a family member with a terminal illness, from diagnosis to
+            end-of-life. After my responsibilities concluded, I transitioned into nonprofit and support roles that
+            offered me the meaning required to be present for my community and myself.</p>
+
+            <h2>// THE_PHILOSOPHY</h2>
+            <blockquote>"Prefer boring-reliable systems over clever-fragile ones. Start small, document everything,
+            automate only after stability."</blockquote>
+            <p>That experience didn't just teach me resilience; it clarified my values. In tech, we talk about
+            "uptime" and "reliability" as abstract metrics. When you are coordinating care for a loved one, those
+            words take on a very literal, human weight. I bring that same gravity to my technical work.</p>
+
+            <h2>// TECH_CONSTELLATION</h2>
+            <ul>
+                <li><strong>Infrastructure & Networking</strong>: Proxmox clusters (containers/VMs), WireGuard and VLAN
+                architecture, Cloudflare Zero Trust and SSO/OIDC, reverse proxies and web ops.</li>
+                <li><strong>Development & Platforms</strong>: Node.js, Python, PHP, Go, Bash, PowerShell, C/C#, Laravel,
+                Odoo, Frappe, Next.js, WordPress.</li>
+                <li><strong>Security (Defensive)</strong>: Vulnerability scanning and hardening, packet analysis, 3-2-1
+                encrypted backup protocols.</li>
+                <li><strong>Marketing Ops</strong>: SEO, Google Analytics, AdWords, AdSense, traffic optimization.</li>
+            </ul>
+
+            <h2>// RUNTIME_EXECUTION (Experience)</h2>
+            <ul>
+                <li><strong>Founder and Operator — 906.sh</strong> (Jan 2025 - Present): Delivering right-sized IT
+                foundations for small businesses and nonprofits. Deploy secure identity management, email systems, and
+                automated backups. Create runbooks and clear documentation so organizations can maintain systems
+                independently after handoff.</li>
+                <li><strong>Manager / Coordinator (Operations) — MDSCAA</strong> (Apr 2025 - Present): Applied systems
+                thinking to human workflows. Managed operational systems for senior care, ensuring compliance through
+                rigorous record-keeping and workflow coordination. Executed process improvements across office
+                operations to streamline service delivery.</li>
+                <li><strong>Freelance Web Developer and Consultant</strong> (Nov 2016 - Dec 2019): Helped a client scale
+                revenue from four figures to six figures per month through full-stack web implementation
+                (Laravel/WordPress) and marketing execution. Implemented a full small-business IT stack with storefront
+                sites, landing pages, community intranets, customer communication tools, and invoicing workflows.</li>
+                <li><strong>Daily Press</strong> (Sept 2022 - Sep 2023): Managed front desk operations and customer
+                support, then moved into inside sales, accounting, and editorial. Reduced duties to accommodate family
+                caretaking requirements.</li>
+                <li><strong>Previous Experience</strong>: International remote contractor (2016-2018) and early career
+                roles in service and logistics, building operational discipline.</li>
+            </ul>
+
+            <h2>// TECHNICAL_ORIGIN</h2>
+            <p>An ongoing timeline of self-hosted infrastructure, development, and system administration
+            (2006-Present).</p>
+            <ul>
+                <li><strong>Infrastructure Engineering</strong>: Architected dual-network environments utilizing
+                Proxmox clusters and Cloudflare Zero Trust.</li>
+                <li><strong>Modding Scene</strong>: Video game modifications to improve gameplay (Battlefield 1942,
+                Warcraft III, Source Engine).</li>
+                <li><strong>Web Ops</strong>: Managed comprehensive hosting environments (cPanel/WHM), reverse proxies,
+                SSL automation.</li>
+                <li><strong>Automation</strong>: Developed custom SMS auto-messaging bots using Android gateways.</li>
+            </ul>
+
+            <p>I am looking for a role where I can apply this mix of deep technical literacy and operational
+            discipline.</p>
+            `
+            },
             'game-hosting': {
                 title: 'Game Server Engineering: Pterodactyl & Modded Minecraft',
                 date: '2026-01-03',
